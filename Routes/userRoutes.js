@@ -6,7 +6,16 @@ require('dotenv').config();
 const validator = require('../Middlewares/validator');
 const UserModel = require('../Models/userModel');
 const LogoutModel = require('../Models/logoutModel');
+const auth = require('../Middlewares/authMiddleware');
 
+userRouter.get('/',auth ,async(req, res) => {
+    try {
+        const users = await UserModel.find();
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(400).send({msg : error.message});
+    }
+})
 
 userRouter.post('/register', validator, async(req, res) => {
     const {password} = req.body;
