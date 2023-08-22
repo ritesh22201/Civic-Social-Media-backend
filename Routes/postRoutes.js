@@ -59,4 +59,31 @@ postRouter.delete('/deletePost/:id', auth, async(req, res) => {
     }
 })
 
+// For likes
+
+postRouter.post('/:postId/like', auth, async(req, res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.body.author;
+
+        const post = await PostModel.findById(postId);
+
+        if(!post){
+            return res.status(400).send({msg : 'Post not found!'});
+        }
+
+        if(post.likes.includes(userId)){
+            return res.status(400).send({msg : 'You already liked this post'});
+        }
+
+        post.likes.push(userId);
+        await post.save();
+
+        res.status(200).send({msg : 'Post liked successfully'});
+
+    } catch (error) {
+        res.status(400).send({msg : error.message});
+    }
+})
+
 module.exports = postRouter;
