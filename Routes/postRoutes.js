@@ -86,4 +86,31 @@ postRouter.post('/:postId/like', auth, async(req, res) => {
     }
 })
 
+// For unlikes
+
+postRouter.post('/:postId/unlike', auth, async(req, res) => {
+    try {
+        const postId = req.params.postId;
+        const userId = req.body.author;
+
+        const post = await PostModel.findById(postId);
+
+        if(!post){
+            return res.status(400).send({msg : 'Post not found!'});
+        }
+
+        if(!post.likes.includes(userId)){
+            return res.status(400).send({msg : "You didn't like this post!"});
+        }
+
+        post.likes = post.likes.filter(el => el.toString() !== userId.toString());
+        await post.save();
+
+        res.status(200).send({msg : 'Post liked successfully'});
+
+    } catch (error) {
+        res.status(400).send({msg : error.message});
+    }
+})
+
 module.exports = postRouter;
