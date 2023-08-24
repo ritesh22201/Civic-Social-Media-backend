@@ -61,7 +61,7 @@ postRouter.delete('/deletePost/:id', auth, async(req, res) => {
 
 // For likes
 
-postRouter.post('/:postId/like', auth, async(req, res) => {
+postRouter.post('/like/:postId', auth, async(req, res) => {
     try {
         const postId = req.params.postId;
         const userId = req.body.author;
@@ -88,7 +88,7 @@ postRouter.post('/:postId/like', auth, async(req, res) => {
 
 // For unlikes
 
-postRouter.post('/:postId/unlike', auth, async(req, res) => {
+postRouter.post('/unlike/:postId', auth, async(req, res) => {
     try {
         const postId = req.params.postId;
         const userId = req.body.author;
