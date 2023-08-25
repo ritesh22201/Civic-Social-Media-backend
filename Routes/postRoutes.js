@@ -106,7 +106,7 @@ postRouter.post('/unlike/:postId', auth, async(req, res) => {
         post.likes = post.likes.filter(el => el.toString() !== userId.toString());
         await post.save();
 
-        res.status(200).send({msg : 'Post liked successfully'});
+        res.status(200).send({msg : 'Post unliked successfully'});
 
     } catch (error) {
         res.status(400).send({msg : error.message});
